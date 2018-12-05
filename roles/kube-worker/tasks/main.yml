@@ -1,10 +1,14 @@
 ---
+- name: Enable IP forwarding
+  command: sysctl net.ipv4.ip_forward=1
+
+- name: Enable /proc/sys/net/bridge/bridge-nf-call-iptables
+  command: sysctl net.bridge.bridge-nf-call-iptables=1
 
 - name: Reset Kubernetes component
   shell: "kubeadm reset --force"
 
 - name: Join to Kubernetes cluster
-  when: reset_cluster|succeeded
   shell: |
     kubeadm join \
                  --token {{ token }} \

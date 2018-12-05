@@ -28,7 +28,7 @@ $vm_configs = [
     enable_serial_logging: false,
 
     vm_gui: false,
-    vm_memory: 1024,
+    vm_memory: 1536,
     vm_cpus: 1,
     vb_cpuexecutioncap: 90,
 
