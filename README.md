@@ -48,6 +48,8 @@ all:
   
   ```Bash
   ansible-playbook kubernetes-addons.yaml
+  ansible-playbook kubernetes-addons.yaml
+
   ```
   
 * Run the `kubernetes-addons.yaml` playbook with privileges if using ansible 2.6+.  
