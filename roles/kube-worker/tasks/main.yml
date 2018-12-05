@@ -2,10 +2,8 @@
 
 - name: Reset Kubernetes component
   shell: "kubeadm reset --force"
-  register: reset_cluster
 
 - name: Join to Kubernetes cluster
-  when: reset_cluster|succeeded
   shell: |
     kubeadm join \
                  --token {{ token }} \
