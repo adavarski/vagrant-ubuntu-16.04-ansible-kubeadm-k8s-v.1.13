@@ -40,7 +40,3 @@ License
 
 WTFPL
 
-Author Information
-------------------
-
-Jaskaranbir Dhillon - Some random developer guy.
