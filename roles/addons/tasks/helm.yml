@@ -39,7 +39,7 @@
 
 - name: Wait for tiller to be ready
   wait_for:
-    timeout: 10
+    timeout: 90
 
 - name: Copy helm value-templates
   include: "{{ ansible_macros_dir }}/template_copy.yml"
