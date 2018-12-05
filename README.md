@@ -44,18 +44,17 @@ all:
 
 * Edit `group_vars/all.yml` and other role-specific variables (under `roles/<role-name>/default/main.yml`) as required, also you can setup for your needs `roles/kube-master/templates/kubeadm-config.yml.j2`.
 
-* Run the `kubernetes.yaml` playbook ansible 2.5+.  
+* Run the `kubernetes-addons.yaml` playbook ansible 2.5+.  
   
   ```Bash
-  ansible-playbook kubernetes.yaml
-  ansible-playbook kubernetes.yaml
+  ansible-playbook kubernetes-addons.yaml
   ```
   
-* Run the `kubernetes.yaml` playbook with privileges if using ansible 2.6+.  
+* Run the `kubernetes-addons.yaml` playbook with privileges if using ansible 2.6+.  
   **Note**: Since Ansible 2.6+, it is required that the private_key must have permissions `400`, and the ansible-files should reside in a non-public directory (permissions `744`).
 
   ```Bash
-  sudo ansible-playbook kubernetes.yaml
+  sudo ansible-playbook kubernetes-addons.yaml
   ```
   
   
@@ -88,7 +87,7 @@ The playbook install following addons by default:
 * Grafana (includes a dashboard, using Prometheus as DataSource)
 * The default Kubeadm addons (such as Dashboard)
 
-If you would prefer not to install these addons, comment-out/delete the relavant lines in `kubernetes.yaml` file. For example, to disable addons:
+If you would prefer not to install these addons, comment-out/delete the relavant lines in `kubernetes-addons.yaml` file. For example, to disable addons:
 
 ```YAML
 # - name: Setup Kubernetes addons
@@ -113,3 +112,21 @@ With Kubernetes providing vast security options, the user is expected to go thro
 
   [0]: https://www.virtualbox.org/
   [1]: https://www.vagrantup.com/
+  
+### Manual install helm charts if tiller pod is not yet available during ansible play
+```
+$ helm install stable/prometheus --name prometheus -f /etc/kubernetes/helm-values/prometheus.yml --tls --tls-ca-cert /etc/kubernetes/pki/helm/prod/tiller-prod-ca.pem --tls-cert /etc/kubernetes/pki/helm/prod/helm-prod-cert.pem --tls-key /etc/kubernetes/pki/helm/prod/helm-prod-key.pem --tiller-namespace=production --namespace=kube-system
+
+$ helm install stable/grafana --name grafana -f /etc/kubernetes/helm-values/grafana.yml --tls --tls-ca-cert /etc/kubernetes/pki/helm/prod/tiller-prod-ca.pem --tls-cert /etc/kubernetes/pki/helm/prod/helm-prod-cert.pem --tls-key /etc/kubernetes/pki/helm/prod/helm-prod-key.pem --tiller-namespace=production --namespace=kube-system
+```
+### View grafana if nginx LB is not installed or working
+
+```
+$ kubectl get pods --namespace kube-system -l "app=grafana" -o jsonpath="{.items[0].metadata.name}"
+grafana-8579d65cc6-t5ktb
+
+$ kubectl --namespace kube-system port-forward grafana-8579d65cc6-t5ktb 3000
+
+BROWSER: http://localhost:3000
+```
+
