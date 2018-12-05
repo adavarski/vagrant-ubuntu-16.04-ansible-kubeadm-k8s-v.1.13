@@ -5,7 +5,7 @@ Quickly bootstrap a Kubernetes cluster via Kubeadm using this Playbook.
 
 System Requirements:
 
-* Required Ansible version: 2.6+
+* Required Ansible version: 2.5+ or 2.6+
 * Passwordless SSH access for all nodes
 * Currently targetted for Ubuntu 16.04 (can be adapted to other distros)
 * 4GB RAM (6GB if running via Vagrant/VM) with a dual-core processor minimum recommended
@@ -42,14 +42,22 @@ all:
             kube-master-01:
 ```
 
-* Edit `group_vars/all.yml` and other role-specific variables (under `roles/<role-name>/default/main.yml`) as required.
+* Edit `group_vars/all.yml` and other role-specific variables (under `roles/<role-name>/default/main.yml`) as required, also you can setup for your needs `roles/kube-master/templates/kubeadm-config.yml.j2`.
 
-* Run the `kubernetes.yaml` playbook with privileges.  
+* Run the `kubernetes.yaml` playbook ansible 2.5+.  
+  
+  ```Bash
+  ansible-playbook kubernetes.yaml
+  ```
+  
+* Run the `kubernetes.yaml` playbook with privileges if using ansible 2.6+.  
   **Note**: Since Ansible 2.6+, it is required that the private_key must have permissions `400`, and the ansible-files should reside in a non-public directory (permissions `744`).
 
   ```Bash
   sudo ansible-playbook kubernetes.yaml
   ```
+  
+  
 
 #### Getting the Kubeconfig for Kubectl
 
