@@ -48,6 +48,7 @@ all:
   
   ```Bash
   ansible-playbook kubernetes.yaml
+  ansible-playbook kubernetes.yaml
   ```
   
 * Run the `kubernetes.yaml` playbook with privileges if using ansible 2.6+.  
